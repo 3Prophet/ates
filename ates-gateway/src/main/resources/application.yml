@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: zuul
+  mvc:
+    dispatch-options-request: true
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+
+server:
+  port: ${PORT:8011}
+
+app:
+  hostname: ${EXTERNAL_PROTOCOL:http}://${EXTERNAL_HOST:localhost}:${EXTERNAL_PORT:8011}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_PROTOCOL:http}://${EUREKA_HOST:localhost}:${EUREKA_PORT:8010}/eureka
+  instance:
+    prefer-ip-address: true
+    statusPageUrl: ${app.hostname}/actuator/info
+    healthCheckUrl: ${app.hostname}/actuator/health
+    homePageUrl: ${app.hostname}/
+    instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}

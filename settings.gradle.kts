@@ -17,4 +17,4 @@ pluginManagement {
 //include("ates-base-service")
 //include("ates-frontend")
 include("ates-discovery")
-
+include("ates-gateway")
