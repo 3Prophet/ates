@@ -1,0 +1,7 @@
+# Compiled class file
+/.gradle/
+/.idea/
+
+**/build/
+/ates-base-service
+/ates-frontend
