@@ -1,0 +1,184 @@
+openapi: 3.0.3
+info:
+  title: Accounting System - OpenAPI 3.0
+  description: |-
+    This is an Accounting System Server based on the OpenAPI 3.0 specification.  
+    Useful terms:
+    - _tenant_ - a trustee, the main user of the system
+    - _contact_ - a client of a trustee
+  contact:
+    email: adlerstone@yahoo.co.uk
+  version: 1.0.0
+servers:
+  - url: http://localhost:8011/auth/api/v1
+tags:
+  - name: signup
+    description: Singn up
+  - name: login
+    description: Log in
+  - name: user
+    description: User info update
+paths:
+  /singup:
+    post:
+      summary: Register new user
+      tags:
+        - signup
+      operationId: signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignUpResponse'
+  /login:
+    post:
+      summary: Login
+      tags:
+        - login
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: bla@apt.ch
+              password: cGFzc3dvcmQ=
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  /users:
+    put:
+      summary: Update user information
+      tags:
+        - user
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateResponse'
+
+components:
+  schemas:
+    UserRole:
+      type: string
+      enum:
+        - ADMIN
+        - DEVELOPER
+    SignUpRequest:
+      description: Information about user to be registered
+      type: object
+      properties:
+        fullName:
+          type: string
+          minLength: 1
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRole'
+          minItems: 1
+        email:
+          type: string
+          format: email
+        password:
+          description: Base64 encoded url
+          type: string
+      required:
+        - fullName
+        - roles
+        - email
+        - password
+    UserResponseObject:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        fullName:
+          type: string
+          minLength: 1
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRole'
+          minItems: 1
+        email:
+          type: string
+          format: email
+      required:
+        - id
+        - fullName
+        - roles
+        - email
+    SignUpResponse:
+      allOf:
+        - $ref: '#/components/schemas/UserResponseObject'
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          description: Base64 url encoded string
+          type: string
+      required:
+        - email
+        - password
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+      required:
+        - accessToken
+        - refreshToken
+    UserUpdateRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        fullName:
+          type: string
+          minLength: 1
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRole'
+          minItems: 1
+        email:
+          type: string
+          format: email
+        password:
+          description: Base64 encoded url
+          type: string
+      required:
+        - id
+    UserUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/UserResponseObject'

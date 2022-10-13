@@ -18,3 +18,4 @@ pluginManagement {
 //include("ates-frontend")
 include("ates-discovery")
 include("ates-gateway")
+include("ates-auth")

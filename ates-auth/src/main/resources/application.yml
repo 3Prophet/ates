@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://${APP_DB_HOST:localhost}:${APP_DB_PORT:3315}/${APP_DB_NAME:auth}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true
+    username: ${APP_DB_USERNAME:vagrant}
+    password: ${APP_DB_PASSWORD:vagrant}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+
