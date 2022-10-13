@@ -1,0 +1,12 @@
+server:
+  port: ${PORT:8010}
+  eviction-interval-timer-in-ms: 1000
+spring:
+  application:
+    name: ates-discovery
+eureka:
+  client:
+    fetchRegistry: false
+    registerWithEureka: false
+    serviceUrl:
+      defaultZone: http://${EUREKA_HOST:localhost}:${PORT:8010}/eureka/
